@@ -4,10 +4,9 @@ const createError = require('http-errors')
 const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const helperEmail = require('../helpers/email')
 
-const registerSeller = async (req, res, next) => {
-  const { username, email, password, phoneNumber, role } = req.body
+const register = async (req, res, next) => {
+  const { username, email, password, phoneNumber} = req.body
 
   const user = await userModel.searchUser(email)
   if (user.length > 0) {
@@ -22,8 +21,7 @@ const registerSeller = async (req, res, next) => {
         username: username,
         email: email,
         password: hash,
-        phoneNumber: phoneNumber,
-        role: "1"
+        // phoneNumber: phoneNumber,
       }
 
       userModel.insertUser(data)
@@ -35,41 +33,7 @@ const registerSeller = async (req, res, next) => {
           console.log(error)
           helpers.responseInsert(res, null, 500, { message: 'internal server error' })
         })
-       const resEmail = helperEmail.sendEmail()
       
-    })
-  })
-}
-
-const registerCustomer = async (req, res, next) => {
-  const { username, email, password, phoneNumber, role } = req.body
-
-  const user = await userModel.searchUser(email)
-  if (user.length > 0) {
-    return helpers.responseInsert(res, null, 401, { message: 'email already exist' })
-  }
-  // console.log(user);
-  bcrypt.genSalt(15, function (err, salt) {
-    bcrypt.hash(password, salt, function (err, hash) {
-      // console.log(hash);
-      const data = {
-        id: uuidv4(),
-        username: username,
-        email: email,
-        password: hash,
-        phoneNumber: phoneNumber,
-        role: "2"
-      }
-
-      userModel.insertUser(data)
-        .then((data) => {
-          delete data.password
-          helpers.responseInsert(res, data, 200)
-        })
-        .catch((error) => {
-          console.log(error)
-          helpers.responseInsert(res, null, 500, { message: 'internal server error' })
-        })
     })
   })
 }
@@ -90,17 +54,17 @@ const login = async (req, res, next) => {
       // console.log(token);
       // console.log(process.env.SECRET_KEY);
       delete user.password
-      user.token = token
+      res.cookie('token', token, {
+        httpOnly: true,
+        maxAge: 60*60*60,
+        secure: true,
+        path: '/',
+        sameSite: 'strict'
+      }, user.data)
       helpers.responseInsert(res, user, 200)
     })
   })
 }
-
-const sendEmail = async (req, res) => {
-  const resEmail = await helperEmail.sendEmail()
-  res.send({message: 'email sent successfully'})
-  console.log(resEmail);
-} 
 
 const getAllUser = (req, res, next) => {
   const page = req.query.page || 1
@@ -117,12 +81,34 @@ const getAllUser = (req, res, next) => {
     })
 }
 
+const updateUser = (req, res) => {
+  const id = req.params.id
+  const { username, email, password, phoneNumber} = req.body
+  const data = {
+    username,
+    email,
+    password,
+    phoneNumber,
+
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+  userModel.updateUser(id, data)
+    .then((result) => {
+      const user = result
+      helpers.responseUpdate(res, user, 200, null)
+    })
+    .catch((error) => {
+      const err = new createError.InternalServerError()
+      helpers.responseUpdate(res, err, 400, null)
+    })
+}
+
 module.exports = {
-  registerSeller,
-  registerCustomer,
+  updateUser,
+  register,
   login,
   getAllUser,
-  sendEmail
 }
 
 // const getAllUser = (req, res, next) => {
@@ -178,29 +164,7 @@ module.exports = {
 //     })
 // }
 
-// const updateUser = (req, res) => {
-//   const id = req.params.id
-//   const { username, email, password, phoneNumber, storeName, address } = req.body
-//   const data = {
-//     username,
-//     email,
-//     password,
-//     phoneNumber,
-//     storeName,
-//     address,
-//     createdAt: new Date(),
-//     updatedAt: new Date()
-//   }
-//   userModel.updateUser(id, data)
-//     .then((result) => {
-//       const user = result
-//       helpers.responseUpdate(res, user, 200, null)
-//     })
-//     .catch((error) => {
-//       const err = new createError.InternalServerError()
-//       next(err)
-//     })
-// }
+
 
 // const deleteUser = (req, res) => {
 //   const id = req.params.id

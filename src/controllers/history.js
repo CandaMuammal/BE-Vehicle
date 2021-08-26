@@ -32,18 +32,17 @@ const getHistoryById = (req, res, next) => {
 }
 
 const insertHistory = (req, res, next) => {
-  const { name, category, price, qty, totalPrice, address, paymentMethod } = req.body
-  const data = {
-    id: uuidv4(),
-    name,
-    category,
-    price,
-    qty,
-    totalPrice,
-    address,
-    paymentMethod,
-    createdAt: new Date(),
-    updatedAt: new Date()
+  const { name, price, type, image, qty, description, location } = req.body
+  const data = { 
+    name: name,
+    price: price,
+    type,
+    image: `http://localhost:4000/file/${req.file.filename}`,
+    // image: image,
+    qty: qty,
+    description,
+    location,
+    createdAt: new Date()
   }
 
   historyModel.insertHistory(data)
@@ -59,17 +58,17 @@ const insertHistory = (req, res, next) => {
 
 const updateHistory = (req, res) => {
   const id = req.params.id
-  const { name, category, price, qty, totalPrice, address, paymentMethod } = req.body
-  const data = {
-    name,
-    category,
-    qty,
-    price,
-    totalPrice,
-    address,
-    paymentMethod,
-    createdAt: new Date(),
-    updatedAt: new Date()
+  const { name, price, type, image, stock, description, location } = req.body
+  const data = { 
+    name: name,
+    price: price,
+    type,
+    image: `http://localhost:4000/file/${req.file.filename}`,
+    // image: image,
+    stock: stock,
+    description,
+    location,
+    createdAt: new Date()
   }
   historyModel.updateHistory(id, data)
     .then((result) => {

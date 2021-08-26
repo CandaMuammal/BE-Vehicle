@@ -8,10 +8,11 @@ const role = require('../middlewares/role')
 
 router
 // .get('/products', productController.getAllProductByName)
-  .get('/', redisCache.hitCacheAllProduct, productController.getAllProduct)
-  .get('/:id', redisCache.hitCacheProductId, productController.getProductById)
+  .get('/', productController.getAllProduct)
+  .get('/:type', productController.getProductByType)
+  .get('/products/:id', productController.getProductById)
   .post('/', images.single('image'), productController.insertProduct)
-  .put('/:id', auth.verifyAccess, role.sellerRole, images.single('image'), productController.updateProduct)
-  .delete('/:id', auth.verifyAccess, role.sellerRole, productController.deleteProduct)
+  .put('/:id', images.single('image'), productController.updateProduct)
+  .delete('/:id', productController.deleteProduct)
 
 module.exports = router
