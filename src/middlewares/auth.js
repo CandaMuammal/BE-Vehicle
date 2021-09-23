@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken')
 
 const verifyAccess = (req, res, next) => {
-  const token = req.headers.authorization
+  // const token = req.headers.authorization
+  
   if (!token) {
     const error = new Error('token needed, please login first')
     error.code = 401

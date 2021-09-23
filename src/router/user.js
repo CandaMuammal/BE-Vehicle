@@ -1,12 +1,13 @@
 const express = require('express')
 const router = express.Router()
+const images = require('../middlewares/multer')
 const userController = require('../controllers/user')
 
 router
   .get('/', userController.getAllUser)
-  // .get('/:id', userController.getUserById)
+  .get('/:id', userController.getUserById)
   // .post('/', userController.insertUser)
-  .put('/:id', userController.updateUser)
+  .put('/:id', images.single('image'), userController.updateUser)
   // .delete('/:id', userController.deleteUser)
   .post('/register', userController.register)
   .post('/login', userController.login)

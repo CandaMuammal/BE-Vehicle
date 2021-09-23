@@ -18,12 +18,13 @@ const getAllReservation = (req, res, next) => {
     })
 }
 
+
 const getReservationById = (req, res, next) => {
-  const idReservation = req.params.id
-  reservationModel.getReservationById(idReservation)
+  const idUser = req.params.idUser
+  reservationModel.getReservationById(idUser)
     .then((result) => {
-      const reservation = result
-      helpers.responseGet(res, reservation, 200, null)
+      const user = result
+      helpers.responseGet(res, user, 200, null)
     })
     .catch((error) => {
       const err = new createError.InternalServerError()
@@ -32,10 +33,11 @@ const getReservationById = (req, res, next) => {
 }
 
 const insertReservation = (req, res, next) => {
-  const { name, price, image, qty, location, code, time } = req.body
+  const { name, price, image, qty, location, code, time, idUser } = req.body
   const data = { 
     name: name,
-    price: price,
+    idUser: idUser,
+    price: qty*time*price,
     code: uuidv4(),
     // image: '',
     image: image,

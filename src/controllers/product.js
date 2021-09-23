@@ -29,7 +29,7 @@ const getAllProduct = (req, res, next) => {
 }
 
 const getAllProductByName = (req, res, next) => {
-  const page = req.query.page || 1
+  const page = req.query.page || ""
   const limit = req.query.limit || 5
   const start = (page - 1) * limit
   const search = req.query.search

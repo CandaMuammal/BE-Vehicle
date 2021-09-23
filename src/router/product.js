@@ -12,7 +12,9 @@ router
   .get('/:type', productController.getProductByType)
   .get('/products/:id', productController.getProductById)
   .post('/', images.single('image'), productController.insertProduct)
-  .put('/:id', images.single('image'), productController.updateProduct)
+  // .post('/', auth.verifyAccess, images.single('image'), productController.insertProduct)
+  .put('/:id',  images.single('image'), productController.updateProduct)
+  // .put('/:id', auth.verifyAccess, images.single('image'), productController.updateProduct)
   .delete('/:id', productController.deleteProduct)
 
 module.exports = router

@@ -5,7 +5,7 @@ const reservationController = require('../controllers/reservation')
 
 router
   .get('/', reservationController.getAllReservation)
-  .get('/id', reservationController.getReservationById)
+  .get('/:idUser', reservationController.getReservationById)
   .post('/', images.single('image'), reservationController.insertReservation)
   .put('/:id', reservationController.updateReservation)
   .delete('/:id', reservationController.deleteReservation)

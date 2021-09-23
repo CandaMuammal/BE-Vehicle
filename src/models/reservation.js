@@ -12,9 +12,9 @@ const getAllReservation = (start, limit) => {
   })
 }
 
-const getReservationById = (id) => {
+const getReservationById = (idUser) => {
   return new Promise((resolve, reject) => {
-    connection.query('SELECT * FROM reservartion WHERE id = ?', id, (error, result) => {
+    connection.query('SELECT * FROM reservation WHERE idUser = ?', idUser, (error, result) => {
       if (!error) {
         resolve(result)
       } else {

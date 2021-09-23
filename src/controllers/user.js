@@ -56,7 +56,7 @@ const login = async (req, res, next) => {
       delete user.password
       res.cookie('token', token, {
         httpOnly: true,
-        maxAge: 60*60*60,
+        maxAge: 60*60*60*60,
         secure: true,
         path: '/',
         sameSite: 'strict'
@@ -83,14 +83,16 @@ const getAllUser = (req, res, next) => {
 
 const updateUser = (req, res) => {
   const id = req.params.id
-  const { username, email, password, phoneNumber} = req.body
+  const { username, email, phoneNumber, image, birthdate, address} = req.body
   const data = {
     username,
     email,
-    password,
     phoneNumber,
+    birthdate,
+    address,
+    image: `http://localhost:4000/file/${req.file.filename}`,
 
-    createdAt: new Date(),
+    // createdAt: new Date(),
     updatedAt: new Date()
   }
   userModel.updateUser(id, data)
@@ -104,11 +106,25 @@ const updateUser = (req, res) => {
     })
 }
 
+const getUserById = (req, res, next) => {
+  const idUser = req.params.id
+  userModel.getUserById(idUser)
+    .then((result) => {
+      const user = result
+      helpers.responseGet(res, user, 200, null)
+    })
+    .catch((error) => {
+      const err = new createError.InternalServerError()
+      next(err)
+    })
+}
+
 module.exports = {
   updateUser,
   register,
   login,
   getAllUser,
+  getUserById
 }
 
 // const getAllUser = (req, res, next) => {
