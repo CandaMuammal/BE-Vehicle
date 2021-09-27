@@ -17,7 +17,7 @@
 
 ##  About
 
-<p align="justify">Coffee Shop is a Foods & Beverages ordering application. This apps give you (customers) some features to order your favorite foods or beverages. The customers also have some opportunity to use some promo code before directly checkout to the payment page. In payment page you can pick your payments method so it's flexible what kind of money do you have. Also the customers will be able to edit their profile such as photo, username, address, and phone number if they have to change their identity.
+<p align="justify">Vehicle rental is an apps that provide rental services for many kind of vehicles. Here you can rent motorbikes, cars, van, vespa, even casual bike such as fixie. You can rent the available vehicles with different daily rates based on what kind of vehicle you want to choose. If you have paid the total price, your booking id will be out with your payment ticket.
 </p>
 
 ##  Packages
