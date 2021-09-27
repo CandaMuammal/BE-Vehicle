@@ -91,6 +91,7 @@ const updateUser = (req, res) => {
     birthdate,
     address,
     image: `http://localhost:4000/file/${req.file.filename}`,
+    // image,
 
     // createdAt: new Date(),
     updatedAt: new Date()

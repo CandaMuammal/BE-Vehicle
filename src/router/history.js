@@ -7,7 +7,7 @@ const images = require('../middlewares/multer')
 router
   .get('/', historyController.getAllHistory)
   .get('/:id', historyController.getHistoryById)
-  .post('/', images.single('image'), historyController.insertHistory)
+  .post('/', historyController.insertHistory)
   .put('/:id', historyController.updateHistory)
   .delete('/:id', historyController.deleteHistory)
 

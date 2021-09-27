@@ -32,16 +32,18 @@ const getHistoryById = (req, res, next) => {
 }
 
 const insertHistory = (req, res, next) => {
-  const { name, price, type, image, qty, description, location } = req.body
+  const { name, price, user, image, qty, location, duration, code } = req.body
   const data = { 
     name: name,
     price: price,
-    type,
-    image: `http://localhost:4000/file/${req.file.filename}`,
-    // image: image,
+    user,
+    // image: `http://localhost:4000/file/${req.file.filename}`,
+    image: image,
     qty: qty,
-    description,
+    // description,
     location,
+    duration,
+    code,
     createdAt: new Date()
   }
 
