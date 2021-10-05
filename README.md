@@ -2,6 +2,13 @@
      <img src="https://i.postimg.cc/sxYwnYvw/vehiclelogo.png"   alt= border="0" />
 
 </p>
+<p align="center">
+    <br /> 
+    <a href="https://fe-vehicle.vercel.app">View Demo</a>
+    ·
+    <a href="https://github.com/CandaMuammal/BE-Vehicle/issues">Report Bug</a>
+    ·
+</p>
 
 
 ---
